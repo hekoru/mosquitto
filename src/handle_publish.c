@@ -84,11 +84,15 @@ int handle__publish(struct mosquitto *context)
 	}
 
 	if(packet__read_string(&context->in_packet, &msg->topic, &slen)){
+		log__printf(NULL, MOSQ_LOG_INFO,
+                                "Failed reading topic from %s, disconnecting.", context->id);
 		db__msg_store_free(msg);
 		return MOSQ_ERR_MALFORMED_PACKET;
 	}
 	if(!slen && context->protocol != mosq_p_mqtt5){
 		/* Invalid publish topic, disconnect client. */
+		log__printf(NULL, MOSQ_LOG_INFO,
+                                "Failed on SLEN check from %s, disconnecting.", context->id);
 		db__msg_store_free(msg);
 		return MOSQ_ERR_MALFORMED_PACKET;
 	}
@@ -98,10 +102,10 @@ int handle__publish(struct mosquitto *context)
 			db__msg_store_free(msg);
 			return MOSQ_ERR_MALFORMED_PACKET;
 		}
-		if(mid == 0){
-			db__msg_store_free(msg);
-			return MOSQ_ERR_PROTOCOL;
-		}
+//		if(mid == 0){
+//			db__msg_store_free(msg);
+//			return MOSQ_ERR_PROTOCOL;
+//		}
 		/* It is important to have a separate copy of mid, because msg may be
 		 * freed before we want to send a PUBACK/PUBREC. */
 		msg->source_mid = mid;
