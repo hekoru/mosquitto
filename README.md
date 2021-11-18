@@ -1,3 +1,7 @@
+Notice About this fork:
+=======================
+Bluair appliances with air quality sensors use MQTT, but they send what mosquitto deems as incorrect messages (initial id being zero being the worst offender). To be able to properly intercept the messages and plug them into Home Assistant I needed to remove the sequence id != 0 checks in mosquitto.
+
 Eclipse Mosquitto
 =================
 
