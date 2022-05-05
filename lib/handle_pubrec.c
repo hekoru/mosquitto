@@ -52,7 +52,7 @@ int handle__pubrec(struct mosquitto *mosq)
 
 	rc = packet__read_uint16(&mosq->in_packet, &mid);
 	if(rc) return rc;
-	if(mid == 0) return MOSQ_ERR_PROTOCOL;
+//	if(mid == 0) return MOSQ_ERR_PROTOCOL;
 
 	if(mosq->protocol == mosq_p_mqtt5 && mosq->in_packet.remaining_length > 2){
 		rc = packet__read_byte(&mosq->in_packet, &reason_code);

@@ -59,7 +59,7 @@ int handle__pubackcomp(struct mosquitto *mosq, const char *type)
 	rc = packet__read_uint16(&mosq->in_packet, &mid);
 	if(rc) return rc;
 	qos = type[3] == 'A'?1:2; /* pubAck or pubComp */
-	if(mid == 0) return MOSQ_ERR_PROTOCOL;
+	//if(mid == 0) return MOSQ_ERR_PROTOCOL;
 
 	if(mosq->protocol == mosq_p_mqtt5 && mosq->in_packet.remaining_length > 2){
 		rc = packet__read_byte(&mosq->in_packet, &reason_code);
